@@ -76,11 +76,11 @@ On Linux and other platforms having glib, define SYNTH_THREADED TRUE and SYNTH_U
 On other platforms not having glib, define SYNTH_THREADED TRUE and use glibproxy
 The latter has not been tested.
 */
-#define SYNTH_THREADED TRUE
+// #define SYNTH_THREADED TRUE
 // If not defined, uses POSIX threads.  Moot unless SYNTH_THREADED
-#if !defined(_WIN32) && !defined(_WIN64)
-#define SYNTH_USE_GLIB_THREADS
-#endif
+// #if !defined(_WIN32) && !defined(_WIN64)
+// #define SYNTH_USE_GLIB_THREADS
+// #endif
 // Count threads to start.
 #ifdef SYNTH_THREADED
   // A reasonable guess that most current processors have no more than 8 cores.
