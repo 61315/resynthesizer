@@ -58,7 +58,7 @@ then run >automake from the top directory.
 // Only for using resynthesizer plugin for testing adaption to independent engine.
 
 // Bring in alternative code: experimental, debugging, etc.
-#define DEEP_PROGRESS // call progressCallback often, from inside synthesis()
+// #define DEEP_PROGRESS // call progressCallback often, from inside synthesis()
 // #define ANIMATE    // Animate image while processing, for debugging.
 // #define DEBUG
 
