@@ -10,7 +10,10 @@ OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-CFLAGS := $(INC_FLAGS) -MMD -MP -DSYNTH_LIB_ALONE
+CFLAGS := $(INC_FLAGS) -MMD -MP -DSYNTH_LIB_ALONE -g2 -Wall -Wextra -std=c99 -pedantic
+
+# -g -Wall -Wextra -Werror -std=c99 -pedantic-errors
+# TODO: Try both -Werror and -pedantic-errors after all the chores are done.
 
 $(BUILD_DIR)/$(TARGET_LIB): $(OBJS)
 	ar rvs $@ $^
