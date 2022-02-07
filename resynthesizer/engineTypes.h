@@ -228,7 +228,7 @@ get_center (
 
 
 /* swap two elements of a point vector */
-inline void
+static inline void
 swap_vector_elements(
   pointVector vector,
   guint size,
