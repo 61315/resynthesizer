@@ -13,7 +13,7 @@ INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
 CPPFLAGS := $(INC_FLAGS) -MMD -MP
-CFLAGS := -DSYNTH_LIB_ALONE -g2 -Wall -Wextra -std=c99 -pedantic
+CFLAGS := -DSYNTH_LIB_ALONE -g2 -Wall -Wextra -std=c99 -pedantic -Ofast
 
 # -g -Wall -Wextra -Werror -std=c99 -pedantic-errors
 # TODO: Try both -Werror and -pedantic-errors after all the chores are done.

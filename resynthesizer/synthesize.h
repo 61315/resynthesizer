@@ -271,7 +271,7 @@ computeBestFit(
   guint * const bestPatchDiff,  // OUT
   Coordinates * const bestMatchCorpusPoint, // OUT
   const guint countNeighbors,
-  const TNeighbor const neighbors[],
+  const TNeighbor neighbors[],
   tBettermentKind* latestBettermentKind,
   const tBettermentKind bettermentKind,
   const TPixelelMetricFunc corpusTargetMetric,  // array pointers
@@ -586,7 +586,7 @@ synthesize(
       Match patches at random source points from the corpus.
       In later passes, many will be earlyouts.
       */
-      gint j;
+      guint j;
       for(j=0; j<parameters->maxProbeCount; j++)
       {
         isPerfectMatch = computeBestFit(randomCorpusPoint(corpusPoints, prng), 
