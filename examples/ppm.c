@@ -54,8 +54,8 @@ int main()
     _setmode(0, 0x8000);
     _setmode(1, 0x8000);
 #endif
-    struct ppm *source_ppm = ppm_read("source.ppm");
-    struct ppm *mask_ppm = ppm_read("mask.ppm");
+    struct ppm *source_ppm = ppm_read("assets/source.ppm");
+    struct ppm *mask_ppm = ppm_read("assets/mask.ppm");
 
     unsigned char *mask_grayscale = malloc(mask_ppm->width * mask_ppm->height);
 
@@ -96,7 +96,7 @@ int main()
 
     printf("Task finished with the error code: %d\n", error);
 
-    FILE *file_result = fopen("result.ppm", "wb");
+    FILE *file_result = fopen("ppm_result.ppm", "wb");
     ppm_write(source_ppm, file_result);
     fclose(file_result);
 
