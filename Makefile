@@ -1,5 +1,5 @@
 .POSIX:
-CC = clang
+CC = cc
 CPPFLAGS := -MMD -MP -DSYNTH_LIB_ALONE
 CFLAGS := -Wall -Wextra -std=c99 -pedantic -Ofast
 LDFLAGS = -s
@@ -44,7 +44,24 @@ $(BUILD_DIR)/%.c.o: %.c
 	mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-.PHONY: clean
+test: $(EXAMPLES)
+	echo "\033[1;92mTesting...\033[0m"
+	mkdir -p out
+	@for number in 0 1 2 3 4 ; do \
+		for context in 0 1 2 3 4 5 6 7 8 ; do \
+			for neighbors in 9 64 ; do \
+				for probes in 64 256 ; do \
+					./examples/ppm \
+					assets/source00$${number}.ppm \
+					assets/mask00$${number}.ppm \
+					out/result00$${number}"_"$${context}"_"$${neighbors}"_"$${probes}.ppm \
+					$${context} $${neighbors} $${probes} ; \
+				done \
+			done \
+		done \
+	done
+
+.PHONY: clean test all
 
 clean:
 	$(RM) -r $(BUILD_DIR) $(LIB_DIR) $(EXAMPLES)
