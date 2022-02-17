@@ -1,49 +1,57 @@
 .POSIX:
-CC = cc
-CPPFLAGS := -MMD -MP -DSYNTH_LIB_ALONE
-CFLAGS := -Wall -Wextra -std=c99 -pedantic -Ofast
-LDFLAGS = -s
-# LDLIBS = 
+CC        = clang -std=c99
+CPPFLAGS  = -MMD -MP -DSYNTH_LIB_ALONE
+CFLAGS    = -Wall -Wextra -pedantic -O3
+LDFLAGS   = 
+LDLIBS    = 
 # PREFIX = /usr/local
 
 LIB_DIR := lib
 BUILD_DIR := build
 SRC_DIR := resynthesizer
 
+# Collect resynthesizer sources and headers, then create object files out of the sources.
 SRCS := $(shell find $(SRC_DIR) -name '*.c')
-OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
+OBJS := $(SRCS:%.c=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 
 INC_DIRS := $(shell find $(SRC_DIR) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-TARGET_LIB := $(LIB_DIR)/libresynthesizer.a
+STATIC_LIB := $(LIB_DIR)/libresynthesizer.a
 
 EXAMPLE_DIR := examples
-EXAMPLE_SRCS := $(shell find $(EXAMPLE_DIR) -name '*.c')
-EXAMPLES := $(basename $(EXAMPLE_SRCS))
+EXAMPLES := $(EXAMPLE_DIR)/dummy $(EXAMPLE_DIR)/ppm
 
 # -g -Wall -Wextra -Werror -std=c99 -pedantic-errors
 # TODO: Try both -Werror and -pedantic-errors after all the chores are done.
 
-all: $(EXAMPLES)
+all: $(STATIC_LIB) $(EXAMPLES)
 	@echo "\033[1;92mDone!\033[0m"
 
-$(EXAMPLES): $(TARGET_LIB) $(EXAMPLE_SRCS)
-	@echo "\033[1;92mBuilding $@\033[0m"
-	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -o $@ $@.c $(LDFLAGS) $(INC_FLAGS) $(TARGET_LIB)
-
-$(TARGET_LIB): $(OBJS)
+# Build resynthesizer as static library.
+$(STATIC_LIB): $(OBJS)
 	@echo "\033[1;92mBuilding $@\033[0m"
 	mkdir -p $(dir $@)
 	ar rvs $@ $^
 
-$(BUILD_DIR)/%.c.o: %.c
+$(BUILD_DIR)/%.o: %.c
 	@echo "\033[1;92mBuilding $@\033[0m"
 	mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
+# Build the example executables.
+$(EXAMPLE_DIR)/dummy: examples/dummy.c $(STATIC_LIB)
+	@echo "\033[1;92mBuilding $@\033[0m"
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -o $@ examples/dummy.c $(LDFLAGS) $(INC_FLAGS) $(STATIC_LIB)
+
+$(EXAMPLE_DIR)/ppm: examples/ppm.c $(STATIC_LIB)
+	@echo "\033[1;92mBuilding $@\033[0m"
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -o $@ examples/ppm.c $(LDFLAGS) $(INC_FLAGS) $(STATIC_LIB)
+
+# Run the executable(ppm) against the sample images with varying parameters.
 test: $(EXAMPLES)
 	echo "\033[1;92mTesting...\033[0m"
 	mkdir -p out
@@ -66,4 +74,5 @@ test: $(EXAMPLES)
 clean:
 	$(RM) -r $(BUILD_DIR) $(LIB_DIR) $(EXAMPLES)
 
+# Include resynthesizer headers from the `-MMD` and `-MP` flags.
 -include $(DEPS)
