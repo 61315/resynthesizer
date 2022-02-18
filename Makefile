@@ -21,7 +21,7 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 STATIC_LIB := $(LIB_DIR)/libresynthesizer.a
 
 EXAMPLE_DIR := examples
-EXAMPLES := $(EXAMPLE_DIR)/dummy $(EXAMPLE_DIR)/ppm
+EXAMPLES := $(EXAMPLE_DIR)/hello $(EXAMPLE_DIR)/ppm $(EXAMPLE_DIR)/painter
 
 # -g -Wall -Wextra -Werror -std=c99 -pedantic-errors
 # TODO: Try both -Werror and -pedantic-errors after all the chores are done.
@@ -41,15 +41,20 @@ $(BUILD_DIR)/%.o: %.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 # Build the example executables.
-$(EXAMPLE_DIR)/dummy: examples/dummy.c $(STATIC_LIB)
+$(EXAMPLE_DIR)/hello: examples/hello.c $(STATIC_LIB)
 	@echo "\033[1;92mBuilding $@\033[0m"
 	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -o $@ examples/dummy.c $(LDFLAGS) $(INC_FLAGS) $(STATIC_LIB)
+	$(CC) $(CFLAGS) -o $@ examples/hello.c $(LDFLAGS) $(INC_FLAGS) $(STATIC_LIB)
 
 $(EXAMPLE_DIR)/ppm: examples/ppm.c $(STATIC_LIB)
 	@echo "\033[1;92mBuilding $@\033[0m"
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -o $@ examples/ppm.c $(LDFLAGS) $(INC_FLAGS) $(STATIC_LIB)
+
+$(EXAMPLE_DIR)/painter: examples/painter.c $(STATIC_LIB)
+	@echo "\033[1;92mBuilding $@\033[0m"
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -o $@ examples/painter.c $(LDFLAGS) $(INC_FLAGS) $(STATIC_LIB) $(shell pkg-config --cflags --libs sdl2)
 
 # Run the executable(ppm) against the sample images with varying parameters.
 test: $(EXAMPLES)

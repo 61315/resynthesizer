@@ -1,4 +1,4 @@
-// examples/dummy.c
+// examples/hello.c
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -15,13 +15,10 @@ int main()
 
     error = imageSynth(source_image_buffer, mask_image_buffer, T_RGB, params, NULL, NULL, &cancel_token);
 
-    if (error != 0)
-    {
-        printf("Task failed with the error code: %d\n", error);
-        exit(EXIT_FAILURE);
-    }
-
-    printf("Task finished\n");
+    // We're sending empty source/mask buffers.
+    // imageSynth() should return `IMAGE_SYNTH_ERROR_EMPTY_TARGET`
+    if (error == IMAGE_SYNTH_ERROR_EMPTY_TARGET)
+        puts("hello");
 
     return EXIT_SUCCESS;
 }

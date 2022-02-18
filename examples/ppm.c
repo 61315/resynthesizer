@@ -1,14 +1,14 @@
 /* examples/ppm.c
  *   $ ./ppm source! mask! result? context? neighbors? probes?
  */
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-#include <imageSynth.h>
+#include "imageSynth.h"
 
 /* PPM(P6) Read/Write snippets
  * 
- * Borrowed and modified from:
+ * Adopted from:
  * https://github.com/skeeto/scratch/blob/master/animation/pixelsort.c
  */
 struct ppm
@@ -18,8 +18,7 @@ struct ppm
     unsigned char data[];
 };
 
-static struct ppm *
-ppm_create(long width, long height)
+static struct ppm *ppm_create(long width, long height)
 {
     struct ppm *m = malloc(sizeof(*m) + width * height * 3);
     m->width = width;
@@ -27,16 +26,14 @@ ppm_create(long width, long height)
     return m;
 }
 
-static void
-ppm_write(struct ppm *m, FILE *f)
+static void ppm_write(struct ppm *m, FILE *f)
 {
     fprintf(f, "P6\n%ld %ld\n255\n", m->width, m->height);
     if (!fwrite(m->data, m->width * m->height, 3, f))
         exit(EXIT_FAILURE);
 }
 
-static struct ppm *
-ppm_read(const char *filename)
+static struct ppm *ppm_read(const char *filename)
 {
     FILE *f = fopen(filename, "rb");
     if (f == NULL)
@@ -47,7 +44,10 @@ ppm_read(const char *filename)
     struct ppm *m;
     long width, height;
     if (fscanf(f, "P6 %ld%ld%*d%*c", &width, &height) < 2)
+    {
+        fprintf(stderr, "Not a valid PPM image.\n");
         return NULL;
+    }
     m = ppm_create(width, height);
     fread(m->data, width * height, 3, f);
     fclose(f);
@@ -115,7 +115,7 @@ int main(int argc, char **argv)
 
     error = imageSynth(&source_buffer, &mask_buffer, T_RGB, &params, NULL, NULL, &cancel_token);
 
-    if (error != 0)
+    if (error != IMAGE_SYNTH_SUCCESS)
         fprintf(stderr, "Operation failed. Error code: %d\n", error);
 
     FILE *result_file = fopen(result_out, "wb");
