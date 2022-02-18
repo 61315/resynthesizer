@@ -57,7 +57,7 @@ $ examples/ppm assets/source000.ppm assets/mask000.ppm result000.ppm 1 16 64
 
 NOTE: There is a meaningful correlation between **the quality of opration** and the type of fitting method(**context**) described below. The quality of synthesis operation may vary.
 
-| context | method      | shape      | direction |
+| Context | Method      | Shape      | Direction |
 |---------|-------------|------------|-----------|
 | 0       | Patching    | -          | -         |
 | 1       | Shuffle     | Random     | Random    |
@@ -69,7 +69,7 @@ NOTE: There is a meaningful correlation between **the quality of opration** and 
 | 7       | Directional | Vertical   | Outward   |
 | 8       | Squeeze     | Concentric | Both      |
 
-### painter
+### painter ([Online Demo](https://61315.github.io/resynthesizer/painter.html))
 
 ![example-painter](./docs/example-painter.gif)
 
