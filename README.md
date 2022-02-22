@@ -20,26 +20,30 @@ $ make
 
 Additionally run:
 ```
-$ make test
+$ make fuzz
 ```
 
-to test the sample images. 
+to try the sample images with ranging parameters. 
 
 FYI, the test results should look like this:
 ![preview](./docs/preview.png)
 
 ## Building examples
 
-### hello
+- ### hello
 
-Minimal build test. Should write `hello` to the stdout.
+![example-hello](./docs/example-hello.png)
+
+`"Hello, Resynthesizer!"`
+
+Do the synthesis operation against generated bitmaps. Should write `IMAGE_SYNTH_SUCCESS` to the stdout. Serves as a runtime test untill proper unit test scripts are done.
 
 ```
 $ make examples/hello
 $ examples/hello
 ```
 
-### ppm
+- ### ppm
 
 ![example-ppm](./docs/example-ppm.png)
 
@@ -55,7 +59,7 @@ E.g.
 $ examples/ppm assets/source000.ppm assets/mask000.ppm result000.ppm 1 16 64
 ```
 
-NOTE: There is a meaningful correlation between **the quality of opration** and the type of fitting method(**context**) described below. The quality of synthesis operation may vary.
+NOTE: There is a meaningful correlation between **the quality of operation** and the type of fitting method(**context**) described below. The quality of synthesis operation may vary.
 
 | Context | Method      | Shape      | Direction |
 |---------|-------------|------------|-----------|
@@ -69,7 +73,7 @@ NOTE: There is a meaningful correlation between **the quality of opration** and 
 | 7       | Directional | Vertical   | Outward   |
 | 8       | Squeeze     | Concentric | Both      |
 
-### painter ([Online Demo](https://61315.github.io/resynthesizer/painter.html))
+- ### painter ([Online Demo](https://61315.github.io/resynthesizer/painter.html))
 
 ![example-painter](./docs/example-painter.gif)
 

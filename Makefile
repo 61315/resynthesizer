@@ -26,7 +26,7 @@ EXAMPLES := $(EXAMPLE_DIR)/hello $(EXAMPLE_DIR)/ppm $(EXAMPLE_DIR)/painter
 # -g -Wall -Wextra -Werror -std=c99 -pedantic-errors
 # TODO: Try both -Werror and -pedantic-errors after all the chores are done.
 
-all: $(STATIC_LIB) $(EXAMPLES)
+all: $(STATIC_LIB) test
 	@echo "\033[1;92mDone!\033[0m"
 
 # Build resynthesizer as static library.
@@ -57,8 +57,8 @@ $(EXAMPLE_DIR)/painter: examples/painter.c $(STATIC_LIB)
 	$(CC) $(CFLAGS) -o $@ examples/painter.c $(LDFLAGS) $(INC_FLAGS) $(STATIC_LIB) $(shell pkg-config --cflags --libs sdl2)
 
 # Run the executable(ppm) against the sample images with varying parameters.
-test: $(EXAMPLES)
-	echo "\033[1;92mTesting...\033[0m"
+fuzz: $(EXAMPLE_DIR)/ppm
+	@echo "\033[1;92mFuzzing...\033[0m"
 	mkdir -p out
 	@for number in 0 1 2 3 4 ; do \
 		for context in 0 1 2 3 4 5 6 7 8 ; do \
@@ -73,6 +73,14 @@ test: $(EXAMPLES)
 			done \
 		done \
 	done
+
+test: $(EXAMPLE_DIR)/hello
+	@echo "\033[1;92mTesting...\033[0m"
+ifeq ($(shell examples/hello), IMAGE_SYNTH_SUCCESS)
+	@echo "\033[1;92mTest Passed!\033[0m"
+else
+	@echo "\033[1;91mTest Failed!\033[0m"
+endif
 
 .PHONY: clean test all
 
