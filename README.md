@@ -30,7 +30,7 @@ FYI, the test results should look like this:
 
 ## Building examples
 
-- ### hello
+### hello
 
 ![example-hello](./docs/example-hello.png)
 
@@ -43,7 +43,7 @@ $ make examples/hello
 $ examples/hello
 ```
 
-- ### ppm
+### ppm
 
 ![example-ppm](./docs/example-ppm.png)
 
@@ -73,7 +73,7 @@ NOTE: There is a meaningful correlation between **the quality of operation** and
 | 7       | Directional | Vertical   | Outward   |
 | 8       | Squeeze     | Concentric | Both      |
 
-- ### painter ([Online Demo](https://61315.github.io/resynthesizer/painter.html))
+### painter ([Online Demo](https://61315.github.io/resynthesizer/painter.html))
 
 ![example-painter](./docs/example-painter.gif)
 
@@ -81,12 +81,24 @@ Interactive painting demo. Performs synthesis operation on-the-fly.
 
 This example requires [SDL2](https://wiki.libsdl.org/Installation) installed on the build machine, otherwise build will not succeed.
 
-`Makefile` tries to locate the SDL2 using `pkg-config` command. If facing errors, be sure to check if SDL2 is installed properly.
+`Makefile` tries to locate the SDL2 using `pkg-config` command by default. If facing errors, be sure to check if SDL2 is installed properly or manually provide SDL2 to the linker.
+
+##### Using Homebrew:
+- `$ brew install SDL2`
 
 ```
 $ make examples/painter
 $ examples/painter <source>
 ```
+
+##### Using disk image:
+- Download installation package from the [site](https://libsdl.org/download-2.0.php).
+
+```
+$ make examples/painter LDFLAG="-F/Library/Frameworks -framework SDL2"
+$ examples/painter <source>
+```
+
 E.g.
 ```
 $ examples/painter assets/source001.ppm
