@@ -2,7 +2,7 @@
 CC        = clang -std=c99
 CPPFLAGS  = -MMD -MP -DSYNTH_LIB_ALONE
 CFLAGS    = -Wall -Wextra -pedantic -O3
-LDFLAGS   = 
+LDFLAGS   = -lm
 LDLIBS    = 
 # PREFIX = /usr/local
 
