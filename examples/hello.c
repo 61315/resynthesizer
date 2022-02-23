@@ -67,5 +67,5 @@ int main()
 
     puts(enums[error]);
 
-    return EXIT_SUCCESS;
+    return error == IMAGE_SYNTH_SUCCESS ? EXIT_SUCCESS : EXIT_FAILURE;
 }
