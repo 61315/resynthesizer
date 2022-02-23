@@ -76,11 +76,11 @@ fuzz: $(EXAMPLE_DIR)/ppm
 
 test: $(EXAMPLE_DIR)/hello
 	@echo "\033[1;92mTesting...\033[0m"
-ifeq ($(shell examples/hello), IMAGE_SYNTH_SUCCESS)
-	@echo "\033[1;92mTest Passed!\033[0m"
-else
-	@echo "\033[1;91mTest Failed!\033[0m"
-endif
+	@if ./examples/hello; then \
+		echo "\033[1;92mTest Passed!\033[0m"; \
+	else \
+		echo "\033[1;91mTest Failed!\033[0m"; \
+	fi
 
 .PHONY: clean test all
 
