@@ -1,3 +1,5 @@
+[![](https://github.com/61315/resynthesizer/actions/workflows/test.yml/badge.svg)](https://github.com/61315/resynthesizer/actions/workflows/test.yml)
+
 # resynthesizer
 
 WIP
